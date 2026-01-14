@@ -10,20 +10,28 @@ public class SettingsSwitcher : MonoBehaviour
     [Header("UI Images")]
     public Image musicImage;
     public Image sfxImage;
-    public Image dummyImage; // третья настройка
+    public Image dummyImage;
 
-    [Header("Sprites")]
-    public Sprite onSprite;
-    public Sprite offSprite;
+    [Header("Music Sprites")]
+    public Sprite musicOnSprite;
+    public Sprite musicOffSprite;
+
+    [Header("SFX Sprites")]
+    public Sprite sfxOnSprite;
+    public Sprite sfxOffSprite;
+
+    [Header("Dummy Sprites")]
+    public Sprite dummyOnSprite;
+    public Sprite dummyOffSprite;
 
     [Header("States")]
     public bool musicOn = true;
     public bool sfxOn = true;
-    public bool dummyOn = true; // третья настройка
+    public bool dummyOn = true;
 
     [Header("Transparency Settings")]
-    [Range(0f, 1f)] public float offAlpha = 0.5f; // прозрачность, когда выключено
-    [Range(0f, 1f)] public float onAlpha = 1f;    // прозрачность, когда включено
+    [Range(0f, 1f)] public float offAlpha = 0.5f;
+    [Range(0f, 1f)] public float onAlpha = 1f;
 
     private void Start()
     {
@@ -63,7 +71,7 @@ public class SettingsSwitcher : MonoBehaviour
         if (musicSource != null)
             musicSource.mute = !musicOn;
 
-        ApplyImageState(musicImage, musicOn);
+        ApplyImageState(musicImage, musicOn, musicOnSprite, musicOffSprite);
     }
 
     void ApplySfxState()
@@ -74,18 +82,19 @@ public class SettingsSwitcher : MonoBehaviour
                 sfx.mute = !sfxOn;
         }
 
-        ApplyImageState(sfxImage, sfxOn);
+        ApplyImageState(sfxImage, sfxOn, sfxOnSprite, sfxOffSprite);
     }
 
     void ApplyDummyState()
     {
-        ApplyImageState(dummyImage, dummyOn);
+        ApplyImageState(dummyImage, dummyOn, dummyOnSprite, dummyOffSprite);
     }
 
     // --------------------
     // HELPER
     // --------------------
-    void ApplyImageState(Image img, bool state)
+
+    void ApplyImageState(Image img, bool state, Sprite onSprite, Sprite offSprite)
     {
         if (img == null) return;
 

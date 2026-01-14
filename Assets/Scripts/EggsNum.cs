@@ -4,8 +4,11 @@ using TMPro;
 public class EggsNum : MonoBehaviour
 {
     public TMP_Text scoreText;
+    public TMP_Text scoreText2;
 
     private int score;
+
+    private const string BEST_EGGS_KEY = "BEST_EGGS";
 
     void OnEnable()
     {
@@ -15,17 +18,28 @@ public class EggsNum : MonoBehaviour
 
     void UpdateText()
     {
-        scoreText.text = "Score:"+score.ToString();
+        scoreText.text = score.ToString();
+        scoreText2.text = score.ToString();
     }
 
-    // ➕ Вызывать при подборе снежинки
     public void Add(int amount = 1)
     {
         score += amount;
         UpdateText();
+        SaveBestScore();
     }
 
-    // (опционально) получить текущее количество
+    void SaveBestScore()
+    {
+        int best = PlayerPrefs.GetInt(BEST_EGGS_KEY, 0);
+
+        if (score > best)
+        {
+            PlayerPrefs.SetInt(BEST_EGGS_KEY, score);
+            PlayerPrefs.Save();
+        }
+    }
+
     public int GetSnowflakes()
     {
         return score;
